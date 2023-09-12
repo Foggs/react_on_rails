@@ -6,6 +6,7 @@ import Contact from "./pages/Contact";
 import PostDetails from "./components/PostDetails";
 import PostsList from "./components/PostsList";
 import EditPostDetails from "./components/EditPostDetails";
+import NewPost from "./components/NewPost";
 
   export default function App() {
     return (
@@ -17,6 +18,7 @@ import EditPostDetails from "./components/EditPostDetails";
             <Route path="/details/:id/edit" element={<EditPostDetails />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/posts" element={<PostsList />} />
+            <Route path="/newpost" element={<NewPost />} />
           </Route>
         </Routes>
       </BrowserRouter>

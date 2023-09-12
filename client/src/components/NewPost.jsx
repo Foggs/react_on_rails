@@ -3,40 +3,56 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import { API_URL } from '../constants'
 
 function NewPost(){
-    const [post, setPost] = useState([])
+    const [title, setTitle] = useState("")
+    const [body, setBody] = useState("")
     const {id}= useParams()
     const [, setLoading]= useState(true)
     const [, setError] = useState(null)
+    const navigate = useNavigate()
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const postData = {title,body}
+        
+        try {
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+                body: JSON.stringify(postData), 
+            })
+            if(response.ok) {
+                const {id} = await response.json();
+                // console.log('Success', json)
+                navigate(`/posts`)
+            } else {
+                throw response   
+            }
+        } catch (error) {
+            console.log("CATCH FETCH ERROR", error);
+        }   
+        
+    };       
 
-    useEffect(() => {
-        async function fetchData() {
-            try {
-                const response = await fetch(`${API_URL}/${id}`);
-                if(response.ok) {
-                    const json = await response.json();
-                    setPost(json)
-                } else {
-                    throw response   
-                }
-            } catch (error) {
-                console.log("CATCH FETCH ERROR", error);
-            } finally {
-                setLoading(false)
-            }      
-        }
-        fetchData()
-    },[id])
-
-    if(!post){
-        return <h2>Loading...</h2>
-    }
+    
 
     return (
         <div className="post-container">
-            <h3>{post.title}</h3>
-            <h4>{post.body}</h4>
-            <p>{id} ?</p>
-            <Link to="/">Back</Link>
+            <form onSubmit={handleSubmit}>
+                <h2>Create New Post</h2>
+                <div>
+                    <label htmlFor="post-title">Title</label>
+                    <br/>
+                    <input type="text" id="post-title"  onChange={(e)=> setTitle(e.target.value)}/>
+                </div>
+                <div>
+                    <label htmlFor="titleInput">Title</label>
+                    <br/>
+                    <textarea id="bodyInput"  onChange={(e)=> setBody(e.target.value)}/>
+                </div>
+                <div><button type="submit">Create</button></div>
+            </form>
         </div>
         
     )
