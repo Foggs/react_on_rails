@@ -60,9 +60,10 @@ function PostsList(){
                         <button onClick={ () => editPost(post.id) }>Edit</button>
                     </div>
                     <div>
-                        <h3>{post.id}</h3>
-                        <h3>{post.title}</h3>
-                        <h4>{post.body}</h4>
+                        <h4>{post.userid}</h4>
+                        <h4>{post.first_name} {post.last_name}</h4>
+                        <p>{post.email}</p>
+                        <p>{post.address}</p>
                     </div>
                     <div>
                         <button onClick={ () => deletePost(post.id) }>Delete {post.id}</button>
